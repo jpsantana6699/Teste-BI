@@ -1,0 +1,13 @@
+import pandas as pd
+from sqlalchemy import create_engine
+
+produtos = pd.read_csv('/caminho/para/produtos.csv')
+clientes = pd.read_csv('/caminho/para/clientes.csv')
+vendas = pd.read_csv('/caminho/para/vendas.csv')
+
+produtos['Valor_de_Venda'] = produtos['Custo_de_compra'] * 1.2
+
+engine = create_engine('mssql+pyodbc://username:password@servername/dbname?driver=SQL+Server')
+produtos.to_sql('tb_produto', engine, if_exists='replace', index=False)
+clientes.to_sql('tb_cliente', engine, if_exists='replace', index=False)
+vendas.to_sql('tb_venda', engine, if_exists='replace', index=False)
